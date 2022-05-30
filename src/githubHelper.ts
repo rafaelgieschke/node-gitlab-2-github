@@ -1399,7 +1399,8 @@ export class GithubHelper {
     }
     try {
       console.log(`Creating repo ${params.owner}/${params.repo}...`);
-      await this.githubApi.repos.createForAuthenticatedUser({
+      await this.githubApi.repos.createInOrg({
+        org: this.githubOwner,
         name: this.githubRepo,
         private: true,
       });
