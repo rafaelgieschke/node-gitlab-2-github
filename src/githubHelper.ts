@@ -1315,7 +1315,11 @@ export class GithubHelper {
       dateformatOptions
     );
 
-    const attribution = `In GitLab by @${item.author.username} on ${formattedDate}`;
+    // TODO: HACK: probably pass through web_url of issue to comments
+    if (item.web_url) (GithubHelper.addMigrationLine as any).web_url = item.web_url;
+    else item.web_url = `${(GithubHelper.addMigrationLine as any).web_url}#note_${item.id}`;
+
+    const attribution = `> <img src="https://github.com/${item.author.username}.png?size=50" width="25" align="top" /> @${item.author.username} on [GitLab](${item.web_url}):`;
     const lineRef =
       item && item.position
         ? GithubHelper.createLineRef(item.position, repoLink)
